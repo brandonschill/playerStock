@@ -13,6 +13,9 @@
   "author": "Brandon Schill",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "fantasydata-api": "^1.3.3",
+    "request": "^2.69.0",
+    "yahoo-fantasy": "^0.3.0"
   }
 }

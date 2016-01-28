@@ -1,25 +1,48 @@
 var express = require('express');
 var fs = require('fs');
 var app = express();
-var YahooFantasy = require('yahoo-fantasy');
 
-var yf = new YahooFantasy('dj0yJmk9OUltMDZrdlBEMkQ0JmQ9WVdrOVZIZDBUV3d6TXpJbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD0zOQ--', 'a76121efce846e9598e50ba081ffa2e52bb4e548');
 
-yf.player.stats('nba.p.5479', function(err, stats) {
-  console.log(err, stats);
-});
+var options = {
+  timeout: 15000, 
+  nba: {
+    version: 'nba/v2',
+    key: 'e0722465e9d54e0bb15d05b675bc2925' 
+  }
+};
 
-// yf.players.fetch('353.p.5479', function(err, fetch) {
-//   console.log(err, fetch);
+var fantasyData = require('fantasydata-api')(options);
+var request = require('request');
+
+// request(options, function(error, response, body) {
+//   console.log(error, response, body);
+// });
+
+
+
+// fantasyData.nba.newsByPlayerId('20000571', function (err, results) {
+//   console.log(err, results)
+// });
+
+var season = '2016REG';
+// fantasyData.nba.playerSeasonStats(season, function(err, results) {
+//   console.log(JSON.stringify(results[0].FantasyPoints, null, 2));
 // });
 
 app.use(express.static('./public'));
 
 app.get('/dashboard', function(req, res) {
-  yf.player.stats('nba.p.5479', function(err, stats) {
-    res.send(stats);
+  fantasyData.nba.playerSeasonStats(season, function(err, results) {
+    res.send(JSON.stringify(results, null, 2));
+  });
+});
+
+app.get('/dashboard', function(req, res) {
+  fantasyData.nba.playerGameStatsByDate('Jan 27, 2016', function(err, results) {
+    res.send(JSON.stringify(results, null, 2));
   });
 });
 
 
 app.listen('1337');
+console.log('1337 is up');

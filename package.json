@@ -15,7 +15,7 @@
   "dependencies": {
     "express": "^4.13.4",
     "fantasydata-api": "^1.3.3",
-    "request": "^2.69.0",
-    "yahoo-fantasy": "^0.3.0"
+    "moment": "^2.11.1",
+    "request": "^2.69.0"
   }
 }

@@ -1,0 +1,21 @@
+{
+  "name": "playerstock",
+  "version": "1.0.0",
+  "description": "A website for fantasy competitors to see players' fantasy stock rising or falling",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "brandonschill"
+  },
+  "author": "Brandon Schill",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "fantasydata-api": "^1.3.3",
+    "moment": "^2.11.1",
+    "request": "^2.69.0"
+  }
+}

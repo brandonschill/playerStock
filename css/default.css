@@ -27,14 +27,14 @@
 
 .hero h1 {
   color: #fff;
-  font-size: 1.5rem;
-  line-height: 1.5em;
+  font-size: 1.75rem;
+  line-height: 1.75em;
   letter-spacing: -0.025em;
   font-weight: 300;
   text-align: center; 
 }
 
-.hero p {
+.hero h4 {
   color: #fff;
   line-height: 1.75em;
   font-weight: 200;

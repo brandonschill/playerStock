@@ -1,36 +1,35 @@
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'http://localhost:1337/seasonppg');
-xhr.send();
-xhr.addEventListener('load', function() {
-  // var response = JSON.parse(xhr.responseText);
-  // buildCard(response);
-
-
-  // var player = document.getElementById('player');
-  // var info = document.createTextNode(xhr.responseText);
-  // player.appendChild(info);
-  var myPlayers = JSON.parse(xhr.responseText);
+var seasonXhr = new XMLHttpRequest();
+seasonXhr.open('GET', 'http://localhost:1337/seasonppg');
+seasonXhr.send();
+seasonXhr.addEventListener('load', function() {
+  var myPlayers = JSON.parse(seasonXhr.responseText);
   for(var i = 0; i < myPlayers.length; i++) {
     var rppg = (myPlayers[i].FantasyPoints / myPlayers[i].Games);
     var ppg = rppg.toFixed(2);
     var playerName = myPlayers[i].Name;
-    console.log(myPlayers[i]);
     buildCard(myPlayers[i]);
   };
-  // console.log(JSON.parse(xhr.responseText));
 });
 
-// var xhr = new XMLHttpRequest();
-// xhr.open('GET', 'http://localhost:1337/gamepoints');
-// xhr.send();
-// xhr.addEventListener('load', function() {
-//   var myPlayers = JSON.parse(xhr.responseText);
-//   for(var i = 0; i < myPlayers.length; i++) {
-//     var lastPoints = myPlayers[i].FantasyPoints
-//     var playerName = myPlayers[i].Name;
-//     console.log(playerName, lastPoints);
-//   };
-//   console.log(JSON.parse(xhr.responseText));
+var gameXhr = new XMLHttpRequest();
+gameXhr.open('GET', 'http://localhost:1337/gamepoints');
+gameXhr.send();
+gameXhr.addEventListener('load', function() {
+  var myPlayers = JSON.parse(gameXhr.responseText);
+  for(var i = 0; i < myPlayers.length; i++) {
+    var lastPoints = myPlayers[i].FantasyPoints
+    var playerName = myPlayers[i].Name;
+    console.log(playerName, lastPoints);
+  };
+});
+
+
+// var newsXhr = new XMLHttpRequest();
+// newsXhr.open('GET', 'http://localhost:1337/playernews');
+// newsXhr.send();
+// newsXhr.addEventListener('load', function() {
+//   var playerNews = JSON.parse(newsXhr.responseText);
+  
 // });
 
 
@@ -40,7 +39,7 @@ var playerPhotos = {
   20001406: '/images/pzinger.jpg',
   20000544: '/images/harden.jpg',
   20000442: '/images/wall.png',
-  20000468: '/images/davis.jpg',
+  20000468: '/images/davis.gif',
   20000646: '/images/kawhi.jpg',
   20000664: '/images/paul.jpg',
   20000742: '/images/george.jpg',
@@ -141,9 +140,9 @@ function buildCard(data) {
     playerTitle.textContent = data.Name;
     backContent.appendChild(playerTitle);
 
-    var playerNews = document.createElement('p');
-    playerNews.textContent = 'XXXX';
-    backContent.appendChild(playerNews);
+    var playerRecentNews = document.createElement('p');
+    playerRecentNews.textContent = 'XXXX';
+    backContent.appendChild(playerRecentNews);
 
     var playerLinks = document.createElement('div');
     playerLinks.className = "action";

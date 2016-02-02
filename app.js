@@ -21,9 +21,9 @@ var request = require('request');
 
 
 
-fantasyData.nba.newsByPlayerId('20000571', function (err, results) {
-  console.log(err, results)
-});
+// fantasyData.nba.newsByPlayerId('20000571', function (err, results) {
+//   console.log(err, results)
+// });
 
 var season = '2016REG';
 // fantasyData.nba.playerSeasonStats(season, function(err, results) {
@@ -47,7 +47,7 @@ console.log(gameDay);
 
 app.get('/gamepoints', function(req, res) {
   fantasyData.nba.playerGameStatsByDate(gameDay, function(err, results) {
-    console.log(JSON.stringify(results, null, 2));
+    res.send(JSON.stringify(results, null, 2));
   });
 });
 

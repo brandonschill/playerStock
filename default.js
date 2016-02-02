@@ -25,11 +25,10 @@ xhr.addEventListener('load', function() {
 // xhr.send();
 // xhr.addEventListener('load', function() {
 //   var myPlayers = JSON.parse(xhr.responseText);
-//   for(var i = 0; i < 20; i++) {
-//     var rppg = (myPlayers[i].FantasyPoints / myPlayers[i].Games);
-//     var ppg = rppg.toFixed(2);
+//   for(var i = 0; i < myPlayers.length; i++) {
+//     var lastPoints = myPlayers[i].FantasyPoints
 //     var playerName = myPlayers[i].Name;
-//     console.log(ppg, playerName);
+//     console.log(playerName, lastPoints);
 //   };
 //   console.log(JSON.parse(xhr.responseText));
 // });
@@ -56,107 +55,111 @@ var playerPhotos = {
   20000482: '/images/green.jpg',
 };
 
+// var stockChange = (ppg - lastPoints);
+
 
 function buildCard(data) {
 
-  var rppg = (data.FantasyPoints / data.Games);
-  var ppg = rppg.toFixed(2);
+  if(playerPhotos[data.PlayerID]) {
 
-  var deck = document.createElement('div');
-  deck.className = "playerCard";
+    var rppg = (data.FantasyPoints / data.Games);
+    var ppg = rppg.toFixed(2);
 
-  var card = document.createElement('div');
-  card.className = "row";
-  deck.appendChild(card);
+    var deck = document.createElement('div');
+    deck.className = "playerCard";
 
-  var holder = document.createElement('div');
-  holder.className = "medium-4 columns";
-  card.appendChild(holder);
+    var card = document.createElement('div');
+    card.className = "row";
+    deck.appendChild(card);
 
-  var outerCard = document.createElement('div');
-  outerCard.className = "card";
-  holder.appendChild(outerCard);
+    var holder = document.createElement('div');
+    holder.className = "medium-4 columns";
+    card.appendChild(holder);
 
-  var container = document.createElement('div');
-  container.className = "container";
-  outerCard.appendChild(container);
+    var outerCard = document.createElement('div');
+    outerCard.className = "card";
+    holder.appendChild(outerCard);
 
-  var cardFront = document.createElement('div');
-  cardFront.className = "front";
-  container.appendChild(cardFront);
+    var container = document.createElement('div');
+    container.className = "container";
+    outerCard.appendChild(container);
 
-  var photoHolder = document.createElement('div');
-  photoHolder.className = "image";
-  cardFront.appendChild(photoHolder);
+    var cardFront = document.createElement('div');
+    cardFront.className = "front";
+    container.appendChild(cardFront);
 
-  var playerPhoto = document.createElement('img');
-  playerPhoto.setAttribute('src', playerPhotos[data.PlayerID]);
-  photoHolder.appendChild(playerPhoto);
+    var photoHolder = document.createElement('div');
+    photoHolder.className = "image";
+    cardFront.appendChild(photoHolder);
 
-  var playerTitle = document.createElement('span');
-  playerTitle.className = "title";
-  playerTitle.textContent = data.Name;
-  photoHolder.appendChild(playerTitle);
+    var playerPhoto = document.createElement('img');
+    playerPhoto.setAttribute('src', playerPhotos[data.PlayerID]);
+    photoHolder.appendChild(playerPhoto);
 
-  var stockMove = document.createElement('div');
-  stockMove.className = "content";
-  cardFront.appendChild(stockMove);
+    var playerTitle = document.createElement('span');
+    playerTitle.className = "title";
+    playerTitle.textContent = data.Name;
+    photoHolder.appendChild(playerTitle);
 
-  var arrow = document.createElement('img');
-  arrow.setAttribute('src', '/images/arrows.png');
-  stockMove.appendChild(arrow);
+    var stockMove = document.createElement('div');
+    stockMove.className = "content";
+    cardFront.appendChild(stockMove);
 
-  var arrowInfo = document.createTextNode('Fantasy stock ' + 'XXXX ' + 'by ' + 'XXXX ' + 'points');
-  stockMove.appendChild(arrowInfo);
+    var arrow = document.createElement('img');
+    arrow.setAttribute('src', '/images/arrows.png');
+    stockMove.appendChild(arrow);
 
-  var stats = document.createElement('div');
-  stats.className = "action";
-  cardFront.appendChild(stats);
+    var arrowInfo = document.createTextNode('Fantasy stock value changed by ' + "stockChange" + ' points');
+    stockMove.appendChild(arrowInfo);
 
-  var seasonPpg = document.createElement('p');
-  seasonPpg.textContent = 'Season fantasy PPG: ' + ppg;
-  stats.appendChild(seasonPpg);
-  
-  var recentPoints = document.createElement('p');
-  recentPoints.textContent = 'Previous game fantasy points: ' + 'XXXX';
-  stats.appendChild(recentPoints);
+    var stats = document.createElement('div');
+    stats.className = "action";
+    cardFront.appendChild(stats);
 
-  var cardBack = document.createElement('div');
-  cardBack.className = "back";
-  container.appendChild(cardBack);
+    var seasonPpg = document.createElement('p');
+    seasonPpg.textContent = 'Season fantasy PPG: ' + ppg;
+    stats.appendChild(seasonPpg);
+    
+    var recentPoints = document.createElement('p');
+    recentPoints.textContent = 'Previous game fantasy points: ' + "lastPoints";
+    stats.appendChild(recentPoints);
 
-  var backContent = document.createElement('div');
-  backContent.className = "content";
-  cardBack.appendChild(backContent);
+    var cardBack = document.createElement('div');
+    cardBack.className = "back";
+    container.appendChild(cardBack);
 
-  var playerInfo = document.createElement('h2');
-  playerInfo.textContent = 'Player Info';
-  backContent.appendChild(playerInfo);
+    var backContent = document.createElement('div');
+    backContent.className = "content";
+    cardBack.appendChild(backContent);
 
-  var playerTitle = document.createElement('span');
-  playerTitle.className = "title";
-  playerTitle.textContent = data.Name;
-  backContent.appendChild(playerTitle);
+    var playerInfo = document.createElement('h2');
+    playerInfo.textContent = 'Player Info';
+    backContent.appendChild(playerInfo);
 
-  var playerNews = document.createElement('p');
-  playerNews.textContent = 'XXXX';
-  backContent.appendChild(playerNews);
+    var playerTitle = document.createElement('span');
+    playerTitle.className = "title";
+    playerTitle.textContent = data.Name;
+    backContent.appendChild(playerTitle);
 
-  var playerLinks = document.createElement('div');
-  playerLinks.className = "action";
-  cardBack.appendChild(playerLinks);
+    var playerNews = document.createElement('p');
+    playerNews.textContent = 'XXXX';
+    backContent.appendChild(playerNews);
 
-  var linkOne = document.createElement('a');
-  linkOne.setAttribute('href', 'www.nba.com/playerfile/lebron_james/');
-  linkOne.textContent = 'NBA.com';
-  playerLinks.appendChild(linkOne);
+    var playerLinks = document.createElement('div');
+    playerLinks.className = "action";
+    cardBack.appendChild(playerLinks);
 
-  var linkTwo = document.createElement('a');
-  linkTwo.setAttribute('href', 'espn.go.com/nba/player/_/id/1966/lebron-james');
-  linkTwo.textContent = 'ESPN.com';
-  playerLinks.appendChild(linkTwo);
+    var linkOne = document.createElement('a');
+    linkOne.setAttribute('href', 'www.nba.com/playerfile/lebron_james/');
+    linkOne.textContent = 'NBA.com';
+    playerLinks.appendChild(linkOne);
 
-  var cardHolders = document.getElementById('newCard');
-  cardHolders.appendChild(deck);
+    var linkTwo = document.createElement('a');
+    linkTwo.setAttribute('href', 'espn.go.com/nba/player/_/id/1966/lebron-james');
+    linkTwo.textContent = 'ESPN.com';
+    playerLinks.appendChild(linkTwo);
+
+    var cardHolders = document.getElementById('newCard');
+    cardHolders.appendChild(deck);
+  };
 };
-

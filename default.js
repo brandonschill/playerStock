@@ -23,7 +23,6 @@ gameXhr.addEventListener('load', function() {
   };
 });
 
-
 // var newsXhr = new XMLHttpRequest();
 // newsXhr.open('GET', 'http://localhost:1337/playernews');
 // newsXhr.send();

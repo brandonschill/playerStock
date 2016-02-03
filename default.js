@@ -1,69 +1,80 @@
-var seasonXhr = new XMLHttpRequest();
-seasonXhr.open('GET', 'http://localhost:1337/seasonppg');
-seasonXhr.send();
-seasonXhr.addEventListener('load', function() {
-  var myPlayers = JSON.parse(seasonXhr.responseText);
-  for(var i = 0; i < myPlayers.length; i++) {
-    var rppg = (myPlayers[i].FantasyPoints / myPlayers[i].Games);
-    var ppg = rppg.toFixed(2);
-    var playerName = myPlayers[i].Name;
-    buildCard(myPlayers[i]);
-  };
+// var seasonXhr = new XMLHttpRequest();
+// seasonXhr.open('GET', 'http://localhost:1337/seasonppg');
+// seasonXhr.send();
+// seasonXhr.addEventListener('load', function() {
+//   var myPlayers = JSON.parse(seasonXhr.responseText);
+//   for(var i = 0; i < myPlayers.length; i++) {
+//     var rppg = (myPlayers[i].FantasyPoints / myPlayers[i].Games);
+//     var ppg = rppg.toFixed(2);
+//     var playerName = myPlayers[i].Name;
+//     buildCard(myPlayers[i]);
+//   };
+// });
+
+// var gameXhr = new XMLHttpRequest();
+// gameXhr.open('GET', 'http://localhost:1337/gamepoints');
+// gameXhr.send();
+// gameXhr.addEventListener('load', function() {
+//   var myPlayers = JSON.parse(gameXhr.responseText);
+//   for(var i = 0; i < myPlayers.length; i++) {
+//     var lastPoints = myPlayers[i].FantasyPoints
+//     var playerName = myPlayers[i].Name;
+//     console.log(playerName, lastPoints);
+//   };
+// });
+
+var season = new Promise(function(resolve, reject) {
+  var seasonXhr = new XMLHttpRequest();
+  seasonXhr.open('GET', 'http://localhost:1337/seasonppg');
+  seasonXhr.send();
+  seasonXhr.addEventListener('load', function() {
+    var myPlayers = JSON.parse(seasonXhr.responseText);
+    var myResponse = [];
+    for(var i = 0; i < myPlayers.length; i++) {
+      var rppg = (myPlayers[i].FantasyPoints / myPlayers[i].Games);
+      var ppg = rppg.toFixed(2);
+      var playerName = myPlayers[i].Name;
+      myResponse.push(myPlayers[i]);
+    };
+    resolve(myResponse);
+  });
 });
 
-var gameXhr = new XMLHttpRequest();
-gameXhr.open('GET', 'http://localhost:1337/gamepoints');
-gameXhr.send();
-gameXhr.addEventListener('load', function() {
-  var myPlayers = JSON.parse(gameXhr.responseText);
-  for(var i = 0; i < myPlayers.length; i++) {
-    var lastPoints = myPlayers[i].FantasyPoints
-    var playerName = myPlayers[i].Name;
-    console.log(playerName, lastPoints);
-  };
+var game = new Promise(function(resolve, reject) {
+  var gameXhr = new XMLHttpRequest();
+  gameXhr.open('GET', 'http://localhost:1337/gamepoints');
+  gameXhr.send();
+  gameXhr.addEventListener('load', function() {
+    var myPlayers = JSON.parse(gameXhr.responseText);
+    var myResponse = [];
+    for(var i = 0; i < myPlayers.length; i++) {
+      var myPlayer = {};
+      myPlayer.lastPoints = myPlayers[i].FantasyPoints;
+      myPlayer.playerName = myPlayers[i].Name;
+      myResponse.push(myPlayer);
+    };
+    resolve(myResponse);
+  });
 });
 
-// var season = new Promise(function(resolve, reject) {
-//   var seasonXhr = new XMLHttpRequest();
-//   seasonXhr.open('GET', 'http://localhost:1337/seasonppg');
-//   seasonXhr.send();
-//   seasonXhr.addEventListener('load', function() {
-//     var myPlayers = JSON.parse(seasonXhr.responseText);
+// var news = new Promise(function(resolve, reject) {
+//   var newsXhr = new XMLHttpRequest();
+//   newsXhr.open('GET', 'http://localhost:1337/playernews');
+//   newsXhr.send();
+//   newsXhr.addEventListener('load', function() {
+//     var myPlayers = JSON.parse(newsXhr.responseText);
 //     for(var i = 0; i < myPlayers.length; i++) {
-//       var rppg = (myPlayers[i].FantasyPoints / myPlayers[i].Games);
-//       var ppg = rppg.toFixed(2);
-//       var playerName = myPlayers[i].Name;
-//       resolve(myPlayers[i]);
-//     };
+//       var playerNews = myPlayers[i].Content;
+//       resolve(playerNews);
+//     }
 //   });
 // });
 
-// var game = new Promise(function(resolve, reject) {
-//   var gameXhr = new XMLHttpRequest();
-//   gameXhr.open('GET', 'http://localhost:1337/gamepoints');
-//   gameXhr.send();
-//   gameXhr.addEventListener('load', function() {
-//     var myPlayers = JSON.parse(gameXhr.responseText);
-//     for(var i = 0; i < myPlayers.length; i++) {
-//       var lastPoints = myPlayers[i].FantasyPoints
-//       var playerName = myPlayers[i].Name;
-//       resolve(playerName, lastPoints);
-//     };
-//   });
-// });
-
-// Promise.all([season, games]).then(function(data) {
-//   [seasonData, gameData]
-//   buildCard(seasonData, gameData)
-// });
-
-// var newsXhr = new XMLHttpRequest();
-// newsXhr.open('GET', 'http://localhost:1337/playernews');
-// newsXhr.send();
-// newsXhr.addEventListener('load', function() {
-//   var playerNews = JSON.parse(newsXhr.responseText);
-  
-// });
+Promise.all([season, game]).then(function(data) {
+  // [season.Data, game.Data, news.Data]
+  // buildCard(season.data, game.data)
+  buildCard(data);
+});
 
 
 var playerPhotos = { 

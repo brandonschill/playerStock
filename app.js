@@ -31,11 +31,7 @@ app.get('/seasonppg', function(req, res) {
 });
 
 var today = moment().format('ll');
-console.log(today);
-
 var gameDay = moment().subtract(1, 'days').format('ll');
-
-console.log(gameDay);
 
 app.get('/gamepoints', function(req, res) {
   fantasyData.nba.playerGameStatsByDate(gameDay, function(err, results) {
@@ -65,10 +61,13 @@ var thePlayers = [
 ];
 
 
+
 // app.get('/playernews', function(req, res) {
-  fantasyData.nba.newsByPlayerId(thePlayers, function (err, results) {
-    console.log(JSON.stringify(results, null, 2));
-  });
+//   for (i = 0; i < thePlayers.length; i++) {
+//     fantasyData.nba.newsByPlayerId(thePlayers[i], function (err, results) {
+//       res.send(JSON.stringify(results, null, 2));
+//     });
+//   };
 // });
 
 app.listen('1337');

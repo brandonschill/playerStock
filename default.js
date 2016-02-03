@@ -23,6 +23,40 @@ gameXhr.addEventListener('load', function() {
   };
 });
 
+// var season = new Promise(function(resolve, reject) {
+//   var seasonXhr = new XMLHttpRequest();
+//   seasonXhr.open('GET', 'http://localhost:1337/seasonppg');
+//   seasonXhr.send();
+//   seasonXhr.addEventListener('load', function() {
+//     var myPlayers = JSON.parse(seasonXhr.responseText);
+//     for(var i = 0; i < myPlayers.length; i++) {
+//       var rppg = (myPlayers[i].FantasyPoints / myPlayers[i].Games);
+//       var ppg = rppg.toFixed(2);
+//       var playerName = myPlayers[i].Name;
+//       resolve(myPlayers[i]);
+//     };
+//   });
+// });
+
+// var game = new Promise(function(resolve, reject) {
+//   var gameXhr = new XMLHttpRequest();
+//   gameXhr.open('GET', 'http://localhost:1337/gamepoints');
+//   gameXhr.send();
+//   gameXhr.addEventListener('load', function() {
+//     var myPlayers = JSON.parse(gameXhr.responseText);
+//     for(var i = 0; i < myPlayers.length; i++) {
+//       var lastPoints = myPlayers[i].FantasyPoints
+//       var playerName = myPlayers[i].Name;
+//       resolve(playerName, lastPoints);
+//     };
+//   });
+// });
+
+// Promise.all([season, games]).then(function(data) {
+//   [seasonData, gameData]
+//   buildCard(seasonData, gameData)
+// });
+
 // var newsXhr = new XMLHttpRequest();
 // newsXhr.open('GET', 'http://localhost:1337/playernews');
 // newsXhr.send();
@@ -33,24 +67,24 @@ gameXhr.addEventListener('load', function() {
 
 
 var playerPhotos = { 
-  20000571: '/images/lecry.jpg',
-  20000485: '/images/steph.jpg',
-  20001406: '/images/pzinger.jpg',
-  20000544: '/images/harden.jpg',
+  20000571: '/images/lebron.png',
+  20000485: '/images/steph.png',
+  20001406: '/images/porzingis.png',
+  20000544: '/images/harden.png',
   20000442: '/images/wall.png',
-  20000468: '/images/davis.gif',
-  20000646: '/images/kawhi.jpg',
-  20000664: '/images/paul.jpg',
-  20000742: '/images/george.jpg',
-  20000877: '/images/westbrook.jpg',
-  20000884: '/images/durant.jpg',
-  20000515: '/images/butler.jpg',
-  20001449: '/images/boban.jpg',
-  20000862: '/images/cousins.jpg',
-  20000784: '/images/anthony.jpg',
-  20000705: '/images/kobe.jpg',
-  20000619: '/images/lillard.jpg',
-  20000482: '/images/green.jpg',
+  20000468: '/images/davis.png',
+  20000646: '/images/kawhi.png',
+  20000664: '/images/paul.png',
+  20000742: '/images/george.png',
+  20000877: '/images/westbrook.png',
+  20000884: '/images/durant.png',
+  20000515: '/images/butler.png',
+  20001449: '/images/boban.png',
+  20000862: '/images/cousins.png',
+  20000784: '/images/anthony.png',
+  20000705: '/images/kobe.png',
+  20000619: '/images/lillard.png',
+  20000482: '/images/green.png',
 };
 
 // var stockChange = (ppg - lastPoints);
@@ -64,19 +98,11 @@ function buildCard(data) {
     var ppg = rppg.toFixed(2);
 
     var deck = document.createElement('div');
-    deck.className = "playerCard";
-
-    var card = document.createElement('div');
-    card.className = "row";
-    deck.appendChild(card);
-
-    var holder = document.createElement('div');
-    holder.className = "medium-4 columns";
-    card.appendChild(holder);
+    deck.className = "medium-4 columns";
 
     var outerCard = document.createElement('div');
     outerCard.className = "card";
-    holder.appendChild(outerCard);
+    deck.appendChild(outerCard);
 
     var container = document.createElement('div');
     container.className = "container";

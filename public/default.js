@@ -1,28 +1,3 @@
-// var seasonXhr = new XMLHttpRequest();
-// seasonXhr.open('GET', 'http://localhost:1337/seasonppg');
-// seasonXhr.send();
-// seasonXhr.addEventListener('load', function() {
-//   var myPlayers = JSON.parse(seasonXhr.responseText);
-//   for(var i = 0; i < myPlayers.length; i++) {
-//     var rppg = (myPlayers[i].FantasyPoints / myPlayers[i].Games);
-//     var ppg = rppg.toFixed(2);
-//     var playerName = myPlayers[i].Name;
-//     buildCard(myPlayers[i]);
-//   };
-// });
-
-// var gameXhr = new XMLHttpRequest();
-// gameXhr.open('GET', 'http://localhost:1337/gamepoints');
-// gameXhr.send();
-// gameXhr.addEventListener('load', function() {
-//   var myPlayers = JSON.parse(gameXhr.responseText);
-//   for(var i = 0; i < myPlayers.length; i++) {
-//     var lastPoints = myPlayers[i].FantasyPoints
-//     var playerName = myPlayers[i].Name;
-//     console.log(playerName, lastPoints);
-//   };
-// });
-
 var season = new Promise(function(resolve, reject) {
   var seasonXhr = new XMLHttpRequest();
   seasonXhr.open('GET', 'http://localhost:1337/seasonppg');
@@ -57,25 +32,33 @@ var game = new Promise(function(resolve, reject) {
   });
 });
 
-// var news = new Promise(function(resolve, reject) {
-//   var newsXhr = new XMLHttpRequest();
-//   newsXhr.open('GET', 'http://localhost:1337/playernews');
-//   newsXhr.send();
-//   newsXhr.addEventListener('load', function() {
-//     var myPlayers = JSON.parse(newsXhr.responseText);
-//     for(var i = 0; i < myPlayers.length; i++) {
-//       var playerNews = myPlayers[i].Content;
-//       resolve(playerNews);
-//     }
-//   });
-// });
-
-Promise.all([season, game]).then(function(data) {
-  // [season.Data, game.Data, news.Data]
-  // buildCard(season.data, game.data)
-  buildCard(data);
+var news = new Promise(function(resolve, reject) {
+  var newsXhr = new XMLHttpRequest();
+  newsXhr.open('GET', 'http://localhost:1337/playernews');
+  newsXhr.send();
+  newsXhr.addEventListener('load', function() {
+    var myPlayers = JSON.parse(newsXhr.responseText);
+    var myResponse =[];
+    for(var i = 0; i < myPlayers.length; i++) {
+      var playerNews = myPlayers[i].Content;
+      myResponse.push(myPlayers[i]);
+    };
+    resolve(myResponse);
+  });
 });
 
+Promise.all([season, game, news]).then(function(data) {
+  for(var i = 0; i < data[0].length; i++) {
+    for(var k = 0; k < data[1].length; k++) {
+      for(var j = 0; j <data[2].length; j++) {
+        if(data[1][k].playerName === data[0][i].Name && data[0][i].PlayerID === data[2][j].PlayerID) {
+          buildCard(data[0][i], data[1][k], data[2][j]);
+          buildTicker(data[0][i], data[1][k]);
+        }
+      }
+    }
+  };
+});
 
 var playerPhotos = { 
   20000571: '/images/lebron.png',
@@ -98,15 +81,25 @@ var playerPhotos = {
   20000482: '/images/green.png',
 };
 
-// var stockChange = (ppg - lastPoints);
+function buildTicker(data, gameData) {
+  var rppg = (data.FantasyPoints / data.Games);
+  var ppg = rppg.toFixed(2);
+  var rStockChange = (gameData.lastPoints - ppg);
+  var stockChange = rStockChange.toFixed(2);
+  var ticker = document.getElementsByClassName('marquee');
+  ticker[0].textContent += data.Name + ': ' + stockChange + ' ';
+  console.log(ticker[0]);
+};
 
 
-function buildCard(data) {
 
+function buildCard(data, gameData, news) {
   if(playerPhotos[data.PlayerID]) {
 
     var rppg = (data.FantasyPoints / data.Games);
     var ppg = rppg.toFixed(2);
+    var rStockChange = (gameData.lastPoints - ppg);
+    var stockChange = rStockChange.toFixed(2);
 
     var deck = document.createElement('div');
     deck.className = "medium-4 columns";
@@ -144,7 +137,7 @@ function buildCard(data) {
     arrow.setAttribute('src', '/images/arrows.png');
     stockMove.appendChild(arrow);
 
-    var arrowInfo = document.createTextNode('Fantasy stock value changed by ' + "stockChange" + ' points');
+    var arrowInfo = document.createTextNode('Fantasy stock value changed by ' + stockChange + ' points');
     stockMove.appendChild(arrowInfo);
 
     var stats = document.createElement('div');
@@ -156,7 +149,7 @@ function buildCard(data) {
     stats.appendChild(seasonPpg);
     
     var recentPoints = document.createElement('p');
-    recentPoints.textContent = 'Previous game fantasy points: ' + "lastPoints";
+    recentPoints.textContent = 'Previous game fantasy points: ' + gameData.lastPoints;
     stats.appendChild(recentPoints);
 
     var cardBack = document.createElement('div');
@@ -177,7 +170,7 @@ function buildCard(data) {
     backContent.appendChild(playerTitle);
 
     var playerRecentNews = document.createElement('p');
-    playerRecentNews.textContent = 'XXXX';
+    playerRecentNews.textContent = news.Content;
     backContent.appendChild(playerRecentNews);
 
     var playerLinks = document.createElement('div');
@@ -185,12 +178,12 @@ function buildCard(data) {
     cardBack.appendChild(playerLinks);
 
     var linkOne = document.createElement('a');
-    linkOne.setAttribute('href', 'www.nba.com/playerfile/lebron_james/');
+    linkOne.setAttribute('href', 'www.nba.com');
     linkOne.textContent = 'NBA.com';
     playerLinks.appendChild(linkOne);
 
     var linkTwo = document.createElement('a');
-    linkTwo.setAttribute('href', 'espn.go.com/nba/player/_/id/1966/lebron-james');
+    linkTwo.setAttribute('href', 'espn.go.com/nba');
     linkTwo.textContent = 'ESPN.com';
     playerLinks.appendChild(linkTwo);
 

@@ -39,33 +39,37 @@ app.get('/gamepoints', function(req, res) {
   });
 });
 
-var thePlayers = [
-  '20000571',
-  '20000485',
-  '20001406',
-  '20000544',
-  '20000442',
-  '20000468',
-  '20000646',
-  '20000664',
-  '20000742',
-  '20000877',
-  '20000884',
-  '20000515',
-  '20001449',
-  '20000862',
-  '20000784',
-  '20000705',
-  '20000619',
-  '20000482'
-];
+// var thePlayers = [
+//   '20000571',
+//   '20000485',
+//   '20001406',
+//   '20000544',
+//   '20000442',
+//   '20000468',
+//   '20000646',
+//   '20000664',
+//   '20000742',
+//   '20000877',
+//   '20000884',
+//   '20000515',
+//   '20001449',
+//   '20000862',
+//   '20000784',
+//   '20000705',
+//   '20000619',
+//   '20000482'
+// ];
 
-
+app.get('/playernews', function(req, res) {
+  fantasyData.nba.newsByDate(gameDay, function(err, results) {
+    res.send(JSON.stringify(results, null, 2));
+  });
+});
 
 // app.get('/playernews', function(req, res) {
 //   for (i = 0; i < thePlayers.length; i++) {
 //     fantasyData.nba.newsByPlayerId(thePlayers[i], function (err, results) {
-//       res.send(JSON.stringify(results, null, 2));
+//       console.log(JSON.stringify(results, null, 2));
 //     });
 //   };
 // });

@@ -53,23 +53,33 @@ Promise.all([season, game, news]).then(function(data) {
   var recentNews = data[2];
   for(var i = 0; i < seasonStats.length; i++) {
     for(var k = 0; k < gameStats.length; k++) {
-      for(var j = 0; j < recentNews.length; j++) {
-        if(gameStats[k].playerName === seasonStats[i].Name) {
-          if(seasonStats[i].PlayerID === recentNews[j].PlayerID) {
-            var news = recentNews[j];
-          } else {
-            var news = {
-              PlayerID: recentNews[j].PlayerID, 
-              content: 'No Recent News'
-            }
-          }
-          buildCard(seasonStats[i], gameStats[k], news);
-          buildTicker(seasonStats[i], gameStats[k]);
-        }
+      if(gameStats[k].playerName === seasonStats[i].Name) {
+        var news = getNews(seasonStats[i].PlayerID, recentNews);
+        // console.log(news);
+        buildCard(seasonStats[i], gameStats[k], news);
+        buildTicker(seasonStats[i], gameStats[k]);
       }
-    }
+    };
   };
 });
+
+function getNews(playerId, recentNews) {
+  var news;
+  // console.log(playerId)
+  for(var j = 0; j < recentNews.length; j++) {
+    // console.log(playerId, recentNews[j].PlayerID)
+    if(playerId === recentNews[j].PlayerID) {
+      news = recentNews[j];
+      console.log(news.Content);
+    } else {
+      news = {
+        PlayerID: recentNews[j].PlayerID, 
+        content: 'No Recent News'
+      }
+    };
+  }
+  return news;
+}
 
 var playerPhotos = { 
   20000571: '/images/lebron.png',
@@ -197,8 +207,10 @@ function buildCard(data, gameData, news) {
     backContent.appendChild(playerTitle);
 
     var playerRecentNews = document.createElement('p');
-    playerRecentNews.textContent = news.Content;
-    backContent.appendChild(playerRecentNews);
+    if(news) {
+      playerRecentNews.textContent = news.Content;
+      backContent.appendChild(playerRecentNews);
+    };
 
     var playerLinks = document.createElement('div');
     playerLinks.className = "action";

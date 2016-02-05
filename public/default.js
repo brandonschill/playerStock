@@ -54,8 +54,7 @@ Promise.all([season, game, news]).then(function(data) {
   for(var i = 0; i < seasonStats.length; i++) {
     for(var k = 0; k < gameStats.length; k++) {
       if(gameStats[k].playerName === seasonStats[i].Name) {
-        var news = getNews(seasonStats[i].PlayerID, recentNews);
-        // console.log(news);
+        var news = getNews(seasonStats[i].PlayerID, recentNews);     
         buildCard(seasonStats[i], gameStats[k], news);
         buildTicker(seasonStats[i], gameStats[k]);
       }
@@ -65,19 +64,11 @@ Promise.all([season, game, news]).then(function(data) {
 
 function getNews(playerId, recentNews) {
   var news;
-  // console.log(playerId)
-  for(var j = 0; j < recentNews.length; j++) {
-    // console.log(playerId, recentNews[j].PlayerID)
-    if(playerId === recentNews[j].PlayerID) {
-      news = recentNews[j];
-      console.log(news.Content);
-    } else {
-      news = {
-        PlayerID: recentNews[j].PlayerID, 
-        content: 'No Recent News'
-      }
-    };
-  }
+  recentNews.forEach(function(player) {
+    if(playerId === player.PlayerID) {
+      news = player;
+    }
+  })
   return news;
 }
 
@@ -125,7 +116,20 @@ function buildTicker(data, gameData) {
   var rStockChange = (gameData.lastPoints - ppg);
   var stockChange = rStockChange.toFixed(2);
   var ticker = document.getElementsByClassName('marquee');
-  ticker[0].textContent += data.Name + ': ' + stockChange + ' ';
+
+  var player = document.createElement('span');
+  player.textContent = data.Name + ": "
+
+  var change = document.createElement('span');
+  change.textContent = stockChange + " ";
+  if(stockChange > 0) {
+    change.className = 'positive';
+  } else {
+    change.className = 'negative';
+  }
+
+  ticker[0].appendChild(player);
+  ticker[0].appendChild(change);
 };
 
 

@@ -5,12 +5,14 @@
 .hero {
   background: url("/images/zinger.jpg") no-repeat center center;
   background-size: cover;
-  height: 100vh; 
+  height: 50%; 
+
 }
 
 .hero:before {
   content: '';
   position: absolute;
+  height: 50%;
   top: 0;
   right: 0;
   bottom: 0;
@@ -189,17 +191,24 @@ html, body {
     background-color: #1a191b;
     font-family: 'vt323';
     font-size: 48px;
-    color: #70f800;
+    color: #36b500;
     margin: 0 auto;
-    overflow: hidden;
+    overflow: visible;
     white-space: nowrap;
     box-sizing: border-box;
-    animation: marquee 50s linear infinite;
+    animation: marquee 300s linear infinite;
+}
+
+.marquee .positive {
+  color: #73fe39;
+}
+
+.marquee .negative {
+  color: #ff0000;
 }
 
 .marquee p {
   font-family: 'VT323';
-  color: 
 }
 
 .marquee:hover {
@@ -209,7 +218,7 @@ html, body {
 /* Make it move */
 @keyframes marquee {
     0%   { text-indent: 27.5em }
-    100% { text-indent: -105em }
+    100% { text-indent: -805em }
 }
   -webkit-transform: rotate3d(0, 1, 0, 180deg);
   transform: rotate3d(0, 1, 0, 180deg); 

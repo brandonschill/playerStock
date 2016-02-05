@@ -61,7 +61,7 @@ app.get('/gamepoints', function(req, res) {
 // ];
 
 app.get('/playernews', function(req, res) {
-  fantasyData.nba.newsByDate(gameDay, function(err, results) {
+  fantasyData.nba.newsByDate(today, function(err, results) {
     res.send(JSON.stringify(results, null, 2));
   });
 });

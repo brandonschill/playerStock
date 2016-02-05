@@ -48,12 +48,23 @@ var news = new Promise(function(resolve, reject) {
 });
 
 Promise.all([season, game, news]).then(function(data) {
-  for(var i = 0; i < data[0].length; i++) {
-    for(var k = 0; k < data[1].length; k++) {
-      for(var j = 0; j <data[2].length; j++) {
-        if(data[1][k].playerName === data[0][i].Name && data[0][i].PlayerID === data[2][j].PlayerID) {
-          buildCard(data[0][i], data[1][k], data[2][j]);
-          buildTicker(data[0][i], data[1][k]);
+  var seasonStats = data[0];
+  var gameStats = data[1];
+  var recentNews = data[2];
+  for(var i = 0; i < seasonStats.length; i++) {
+    for(var k = 0; k < gameStats.length; k++) {
+      for(var j = 0; j < recentNews.length; j++) {
+        if(gameStats[k].playerName === seasonStats[i].Name) {
+          if(seasonStats[i].PlayerID === recentNews[j].PlayerID) {
+            var news = recentNews[j];
+          } else {
+            var news = {
+              PlayerID: recentNews[j].PlayerID, 
+              content: 'No Recent News'
+            }
+          }
+          buildCard(seasonStats[i], gameStats[k], news);
+          buildTicker(seasonStats[i], gameStats[k]);
         }
       }
     }
@@ -79,6 +90,23 @@ var playerPhotos = {
   20000705: '/images/kobe.png',
   20000619: '/images/lillard.png',
   20000482: '/images/green.png',
+  20000771: '/images/bosh.png',
+  20000772: '/images/wade.png',
+  20000441: '/images/beal.png',
+  20000486: '/images/thompson.png',
+  20000530: '/images/rondo.png',
+  20000516: '/images/rose.png',
+  20000616: '/images/aldridge.png',
+  20000561: '/images/thomas.png',
+  20000620: '/images/mccollum.png',
+  20000795: '/images/wiggins.png',
+  20000574: '/images/irving.png',
+  20000810: '/images/drummond.png',
+  20000457: '/images/lowry.png',
+  20000497: '/images/antetokounmpo.png',
+  20001431: '/images/towns.png',
+  20000680: '/images/payton.png',
+  20000629: '/images/matthews.png'
 };
 
 function buildTicker(data, gameData) {
@@ -88,7 +116,6 @@ function buildTicker(data, gameData) {
   var stockChange = rStockChange.toFixed(2);
   var ticker = document.getElementsByClassName('marquee');
   ticker[0].textContent += data.Name + ': ' + stockChange + ' ';
-  console.log(ticker[0]);
 };
 
 

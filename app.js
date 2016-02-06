@@ -74,5 +74,5 @@ app.get('/playernews', function(req, res) {
 //   };
 // });
 
-app.listen('1337');
-console.log('1337 is up');
+var port = process.env.PORT || 1337;
+app.listen(port);

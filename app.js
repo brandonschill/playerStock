@@ -34,7 +34,7 @@ var today = moment().format('ll');
 var gameDay = moment().subtract(1, 'days').format('ll');
 
 app.get('/gamepoints', function(req, res) {
-  fantasyData.nba.playerGameStatsByDate(today, function(err, results) {
+  fantasyData.nba.playerGameStatsByDate(gameDay, function(err, results) {
     res.send(JSON.stringify(results, null, 2));
   });
 });
@@ -61,7 +61,7 @@ app.get('/gamepoints', function(req, res) {
 // ];
 
 app.get('/playernews', function(req, res) {
-  fantasyData.nba.newsByDate(today, function(err, results) {
+  fantasyData.nba.newsByDate(gameDay, function(err, results) {
     res.send(JSON.stringify(results, null, 2));
   });
 });

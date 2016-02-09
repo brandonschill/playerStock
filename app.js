@@ -34,7 +34,7 @@ var today = moment().format('ll');
 var gameDay = moment().subtract(1, 'days').format('ll');
 
 app.get('/gamepoints', function(req, res) {
-  fantasyData.nba.playerGameStatsByDate(gameDay, function(err, results) {
+  fantasyData.nba.playerGameStatsByDate(today, function(err, results) {
     res.send(JSON.stringify(results, null, 2));
   });
 });

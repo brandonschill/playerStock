@@ -1,6 +1,6 @@
 var season = new Promise(function(resolve, reject) {
   var seasonXhr = new XMLHttpRequest();
-  seasonXhr.open('GET', 'http://localhost:1337/seasonppg');
+  seasonXhr.open('GET', 'port/seasonppg');
   seasonXhr.send();
   seasonXhr.addEventListener('load', function() {
     var myPlayers = JSON.parse(seasonXhr.responseText);
@@ -17,7 +17,7 @@ var season = new Promise(function(resolve, reject) {
 
 var game = new Promise(function(resolve, reject) {
   var gameXhr = new XMLHttpRequest();
-  gameXhr.open('GET', 'http://localhost:1337/gamepoints');
+  gameXhr.open('GET', 'port/gamepoints');
   gameXhr.send();
   gameXhr.addEventListener('load', function() {
     var myPlayers = JSON.parse(gameXhr.responseText);
@@ -34,7 +34,7 @@ var game = new Promise(function(resolve, reject) {
 
 var news = new Promise(function(resolve, reject) {
   var newsXhr = new XMLHttpRequest();
-  newsXhr.open('GET', 'http://localhost:1337/playernews');
+  newsXhr.open('GET', 'port/playernews');
   newsXhr.send();
   newsXhr.addEventListener('load', function() {
     var myPlayers = JSON.parse(newsXhr.responseText);

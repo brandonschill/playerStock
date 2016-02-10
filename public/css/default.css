@@ -2,17 +2,24 @@
   background: url("/images/nba.jpg");
 }
 
+.green {
+  color: #73fe39;
+}
+
+.red {
+  color: #ff0000;
+}
+
 .hero {
   background: url("/images/zinger.jpg") no-repeat center center;
   background-size: cover;
-  height: 50%; 
-
+  height: 70%; 
 }
 
 .hero:before {
   content: '';
   position: absolute;
-  height: 50%;
+  height: 70%;
   top: 0;
   right: 0;
   bottom: 0;
@@ -22,55 +29,41 @@
 
 .hero .intro {
   padding: 3rem;
-  position: relative;
-  top: 50%;
+  position: absolute;
+  float: left;
+  top: 20%;
+  left: -10%;
   transform: translateY(-50%); 
 }
 
 .hero h1 {
   color: #fff;
- /* font-size: 1.5rem;*/
   line-height: 1.5em;
   letter-spacing: -0.025em;
-  font-weight: 300;
-  text-align: center; 
+  font-weight: 400;
+  text-align: left; 
 }
 
 .hero h4 {
   color: #fff;
   line-height: 1.75em;
   font-weight: 200;
-  text-align: center;
+  text-align: left;
   margin-bottom: 2rem; 
 }
 
-.hero .tech-img {
-  background: url("/images/stockup.jpg") no-repeat center center;
-  background-size: cover;
-  height: 9rem;
-  width: 9rem;
-  border-radius: 50%;
-  display: block;
-  margin: 0 auto; 
-}
-
-/*@media only screen and (min-width: 40.063em) {
-  .hero .tech-img {
-    height: 18rem;
-    width: 18rem; 
-  }
-
+@media only screen and (min-width: 40.063em) {
   .hero h1 {
     padding-top: 4.5rem;
-    text-align: right;
-    font-size: 2.5rem; 
+    text-align: left;
+    font-size: 3.5rem; 
   }
 
   .hero p {
-    text-align: right; 
+    text-align: left; 
   } 
 
-}*/
+}
 
 @import url(//fonts.googleapis.com/css?family=Roboto:400,500,300,100,700,900);
 html, body {
@@ -208,7 +201,7 @@ html, body {
 }
 
 .marquee p {
-  font-family: 'VT323';
+  font-family: 'vt323';
 }
 
 .marquee:hover {
